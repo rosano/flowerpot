@@ -30,9 +30,10 @@ define('FLP_INDEX', '/index.html');
 
 // FETCH
 
+$base = str_replace(FLP_INDEX, '', $template);
 $path = $_SERVER['REQUEST_URI'] == '/' ? FLP_INDEX : $_SERVER['REQUEST_URI'];
 
-$outputData = str_replace(FLP_INDEX, '/', str_replace($template, '', file_get_contents($template . $path, false, stream_context_create([
+$outputData = str_replace($base, '', str_replace($template, '/', file_get_contents($base . $path, false, stream_context_create([
 	'http' => [
 		'ignore_errors' => true,
 	],
