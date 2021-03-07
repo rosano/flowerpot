@@ -38,9 +38,21 @@ $outputData = str_replace(FLP_INDEX, '/', str_replace($template, '', file_get_co
 	],
 ]))));
 
-foreach ($http_response_header as $e) {
-	header($e);
-}
+// HEADERS
+
+array_map('header', array_filter($http_response_header, function ($e) {
+	if (strpos($e, 'Connection:') === 0) {
+		return false;
+	}
+
+	if (strpos($e, 'Content-Length') === 0) {
+		return false;
+	}
+	
+	return true;
+}));
+
+// OUTPUT
 
 echo $outputData;
 
